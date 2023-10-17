@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Heading from "./Heading";
 import Footer from "./Footer";
+import axios from "axios";
 
 function Apppp() {
   // State to store the selected audio file and its base64 string
@@ -15,6 +16,7 @@ function Apppp() {
 
   // Function to play the selected audio
   const playAudio = () => {
+    console.log("play");
     if (audioFile) {
       const audio = new Audio(URL.createObjectURL(audioFile));
       audio.play();
@@ -23,16 +25,34 @@ function Apppp() {
 
   // Function to convert the audio file to base64
   const convertToBase64 = () => {
+    console.log("converted");
     if (audioFile) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const result = event.target.result;
         setBase64String(result);
-        console.log("Base64 encoded audio:", result);
+      //  console.log("Base64 encoded audio:", result);
       };
       reader.readAsDataURL(audioFile);
     }
   };
+
+   // Function to upload the audio file to the API
+  // Function to upload the base64-encoded audio to the API
+  const sendAudio = () => {
+    console.log("clicked");
+   // e.preventDefault();
+    const userData = (base64String);
+   // const sendingAudio = new Audio(URL.createObjectURL(audioFile));
+    console.log(userData);
+   // sendingAudio.play();
+    axios.post("https://reqres.in/api/users", userData).then((response) => {
+      console.log(response.status, response.data.token);
+    });
+  };
+
+
+
 
   useEffect(() => {
     navigator.permissions.query({ name: "microphone" }).then((query) => {
@@ -59,6 +79,11 @@ function Apppp() {
         <button onClick={convertToBase64} type="button">
           Convert to Base64
         </button>
+        
+        <button onClick={sendAudio} type="button">
+          upload
+        </button>
+    
         {base64String && (
           <div>
             <h3>Base64 Encoded Audio:</h3>
