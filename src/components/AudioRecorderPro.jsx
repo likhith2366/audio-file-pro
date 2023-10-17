@@ -86,7 +86,7 @@ function AudioRecorderPro() {
         <div>
           <button className= "uploadButtons"  onClick={playRecordedAudio}  >play</button>
           <button className= "uploadButtons"  onClick={convertAudioToBase64}>save</button>
-          <button className= "uploadButtons"  onClick={uploadAudio}>uplaod</button>
+          <button className= "uploadButtons"  onClick={uploadAudio}>upload</button>
           <audio controls src={recordedAudioUrl}></audio>
         </div>
       )}

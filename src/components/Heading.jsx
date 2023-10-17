@@ -3,6 +3,7 @@ import React from "react";
 function Heading(){
 
     return (
+      <div  >
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="/#"><img src="./box-seam.svg" alt="moveit brand icon" height="30"/> Audio Jam</a>
@@ -32,13 +33,26 @@ function Heading(){
                 </ul>
               </li>
             </ul>
+            <div class="side-container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1 class="animate-charcter"> QUADRANT TECHNOLOGIES</h1>
+    </div>
+  </div>
+  </div>
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Phone" aria-label="Search"/>
               <button class="btn btn-outline-success" type="submit">Phone</button>
             </form>
           </div>
         </div>
-      </nav>)
+      </nav>
+
+  </div>
+
+
+    )
+      
     
 }
 export default Heading;
