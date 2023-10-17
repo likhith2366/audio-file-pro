@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Heading from "./Heading";
 import Footer from "./Footer";
 import axios from "axios";
+import AudioRecorderPro from "./AudioRecorderPro";
+
 
 function Apppp() {
   // State to store the selected audio file and its base64 string
@@ -73,14 +75,14 @@ function Apppp() {
           onChange={handleAudioChange}
           accept="audio/*" // Specify accepted file types
         />
-        <button onClick={playAudio} type="button">
+        <button className= "uploadButtons" onClick={playAudio} type="button">
           Play
         </button>
-        <button onClick={convertToBase64} type="button">
+        <button className= "uploadButtons"  onClick={convertToBase64} type="button">
           Convert to Base64
         </button>
         
-        <button onClick={sendAudio} type="button">
+        <button className= "uploadButtons" onClick={sendAudio} type="button">
           upload
         </button>
     
@@ -90,6 +92,9 @@ function Apppp() {
             <p>{base64String}</p>
           </div>
         )}
+      </div>
+      <div className="micContainer">
+        <AudioRecorderPro/>
       </div>
       <Footer />
     </>
