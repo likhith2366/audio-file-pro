@@ -78,13 +78,13 @@ function AudioRecorderPro() {
   return (
     <div>
       {isRecording ? (
-        <button onClick={stopRecording}>Stop Recording</button>
+        <button onClick={stopRecording}><img src="./stop-mic.png" height={30} alt="stop recording"/></button>
       ) : (
-        <button onClick={startRecording}>Start Recording</button>
+        <button onClick={startRecording}><img src="./mic.png" height={30} alt="start recording"/></button>
       )}
       {recordedAudioUrl && (
         <div>
-          <button className= "uploadButtons"  onClick={playRecordedAudio} >Play</button>
+          <button className= "uploadButtons"  onClick={playRecordedAudio}  >play</button>
           <button className= "uploadButtons"  onClick={convertAudioToBase64}>save</button>
           <button className= "uploadButtons"  onClick={uploadAudio}>uplaod</button>
           <audio controls src={recordedAudioUrl}></audio>
