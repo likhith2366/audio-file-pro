@@ -4,7 +4,7 @@ import axios from "axios";
 function UploadAudio() {
   const [audioFile, setAudioFile] = useState(null);
   const [base64Data, setBase64Data] = useState("");
-  const [decodedAudioData, setDecodedAudioData] = useState(null);
+  //const [decodedAudioData, setDecodedAudioData] = useState(null);
 
   const handleAudioChange = (event) => {
     const file = event.target.files[0];
@@ -48,17 +48,16 @@ function UploadAudio() {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const audioBlob = new Blob([byteArray], { type: "audio/wav" });
-      setDecodedAudioData(audioBlob);
+      //setDecodedAudioData(audioBlob);
+      if (audioBlob) {
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      }
     }
   };
 
-  const playDecodedAudio = () => {
-    if (decodedAudioData) {
-      const audioUrl = URL.createObjectURL(decodedAudioData);
-      const audio = new Audio(audioUrl);
-      audio.play();
-    }
-  };
+
 
   return (
     <div className="container upload">
@@ -77,12 +76,12 @@ function UploadAudio() {
         <button className="fileUpload" onClick={convertToBase64} type="button">
           Upload
         </button>
+        <div>
         <button className="fileUpload" onClick={decodeBase64ToAudio} type="button">
-          Decode and Play
+           Response
         </button>
-        <button className="fileUpload" onClick={playDecodedAudio} type="button">
-          Play
-        </button>
+        </div>
+        
       </div>
     </div>
   );

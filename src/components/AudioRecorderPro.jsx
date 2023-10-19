@@ -7,7 +7,8 @@ function AudioRecorderPro() {
   const audioChunks = useRef([]);
   const [recordedAudioUrl, setRecordedAudioUrl] = useState(null);
   const [recordedAudioBlob, setRecordedAudioBlob] = useState(null);
-  const [base64String2, setBaseInto64String] = useState(null);
+  const [responseData,setresponseData] = useState();
+  //const [base64String2, setBaseInto64String] = useState(null);
 
   const startRecording = () => {
     navigator.mediaDevices
@@ -43,18 +44,48 @@ function AudioRecorderPro() {
     }
   };
 
-  const convertAudioToBase64 = () => {
+  const uploadAudio =  () => {
     if (recordedAudioBlob) {
       const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result.split(",")[1];
-        setBaseInto64String(base64String);
+     let myAudio;
+      reader.onload =  () => {
+        myAudio = reader.result.split(",")[1];
+        console.log(myAudio);
+        // const myFinal = myAudio.slice(24);
+        // console.log(myFinal);
+      axios.post("http://127.0.0.1:8000/upload",{base64_data: myAudio}, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }}).then((response) => {
+      console.log(response.status, response.data.base64_data);
+      setresponseData(response.data.base64_data)
+    });
        // console.log("Base64 encoded audio:", base64String);
       };
+      
       reader.readAsDataURL(recordedAudioBlob);
       console.log("saved");
+      return myAudio;
     }
   };
+  const decodeBase64ToAudio = () => {
+    if (responseData) {
+      const byteCharacters = atob(responseData);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const audioBlob = new Blob([byteArray], { type: "audio/wav" });
+      //setDecodedAudioData(audioBlob);
+      if (audioBlob) {
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      }
+    }
+  };
+  
 
   const playRecordedAudio = () => {
     if (recordedAudioUrl) {
@@ -62,35 +93,37 @@ function AudioRecorderPro() {
       audio.play();
     }
   };
-  const uploadAudio = () => {
-    console.log("clicked");
-   // e.preventDefault();
-    const userData = (base64String2);
-   // const sendingAudio = new Audio(URL.createObjectURL(audioFile));
-    console.log(userData);
-   // sendingAudio.play();
-    axios.post("https://reqres.in/api/users", userData).then((response) => {
-      console.log(response.status, response.data.token);
-    });
-  };
+ 
 
 
   return (
-    <div>
+  <div className="upload">
+    <div className="micButton">
       {isRecording ? (
         <button onClick={stopRecording}><img src="./stop-mic.png" height={30} alt="stop recording"/></button>
       ) : (
         <button onClick={startRecording}><img src="./mic.png" height={30} alt="start recording"/></button>
       )}
+    </div>
+
       {recordedAudioUrl && (
+        <div  className="uploadButtons">
         <div>
-          <button className= "uploadButtons"  onClick={playRecordedAudio}  >play</button>
-          <button className= "uploadButtons"  onClick={convertAudioToBase64}>save</button>
-          <button className= "uploadButtons"  onClick={uploadAudio}>upload</button>
+          <button   onClick={playRecordedAudio}  >play</button>
+       {/* <button className= "uploadButtons"  onClick={convertAudioToBase64}>save</button> */}
+          <button  onClick={uploadAudio}>upload</button>
+          </div>
+          <div className="player">
           <audio controls src={recordedAudioUrl}></audio>
+          <div>
+          <button className="fileUpload" onClick={decodeBase64ToAudio} type="button">
+           Response
+        </button>
+        </div>
+        </div>
         </div>
       )}
-    </div>
+  </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import App from "./components/App";
-// import Appp from "./components/Appp";
-import Apppp from "./components/Apppp";
+//import App from "./components/App";
+ //import Apppp from "./components/Apppp";
+import Appp from "./components/Appp";
 
-ReactDOM.render(<Apppp />, document.getElementById("root"));
+ReactDOM.render(<Appp />, document.getElementById("root"));

@@ -48,7 +48,7 @@ function Apppp() {
    // const sendingAudio = new Audio(URL.createObjectURL(audioFile));
     console.log(userData);
    // sendingAudio.play();
-    axios.post("https://reqres.in/api/users", userData).then((response) => {
+    axios.post("http://127.0.0.1:8000/upload", userData).then((response) => {
       console.log(response.status, response.data.token);
     });
   };
